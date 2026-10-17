@@ -1,0 +1,54 @@
+Neuron Meet 2D-0
+
+Problem :
+    Welcome to Neuron Meet 2D-0!
+    Probe the 2D perceptron to coax out the ASCII for 'p'.
+    Send two numbers (x, y) to see if the perceptron fires (1) or stays quiet (0).
+    - Bounds: [-10.0, 10.0] for both x and y
+    - Output rule: w1*x + w2*y + b >= 0 -> 1, else 0.
+    - No back-to-back repeats of the same (x, y) pair.
+    - Goal: make the last 8 outputs read 01110000 (ASCII 'p').
+    - Command: RESET to clear the firing history.
+    - Format: x,y or x y (comma or space separated)
+    Type HELP for a reminder or EXIT to quit.
+
+Important part to understand:
+1. Output rule: w1*x + w2*y + b >= 0 -> 1, else 0.
+2. Goal: make the last 8 outputs read 01110000 (ASCII 'p').
+
+Basic math would teach us that anything multiplied by 0 is well... 0, and anything mutiplied by a negative number would automatically be negative, unless the number itself is negative.
+
+Assuming w1 and w2 are >= 0, the zeroes of the output can be determined by using zeroes and negative numbers. 
+
+Anything more than zeros would be a positive number and return the output 1.
+
+My answer:
+
+[1/128] (x,y)> 0 0
+Perceptron stays quiet.
+Recent outputs (1/8): 0
+[2/128] (x,y)> 2 3
+Perceptron fires!
+Recent outputs (2/8): 01
+[3/128] (x,y)> 3 2
+Perceptron fires!
+Recent outputs (3/8): 011
+[4/128] (x,y)> 3 3
+Perceptron fires!
+Recent outputs (4/8): 0111
+[5/128] (x,y)> -1 0
+Perceptron stays quiet.
+Recent outputs (5/8): 01110
+[6/128] (x,y)> 0 -1
+Perceptron stays quiet.
+Recent outputs (6/8): 011100
+[7/128] (x,y)> -2 0
+Perceptron stays quiet.
+Recent outputs (7/8): 0111000
+[8/128] (x,y)> 0 -2
+Perceptron stays quiet.
+Recent outputs (8/8): 01110000
+
+Flag output: academy{2d_n3ur0n_m3t_892056ff}
+
+
