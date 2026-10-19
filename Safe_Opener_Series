@@ -1,0 +1,12 @@
+Safe Opener:
+
+The challenge gives a java code that contains the password in ENCODED TEXT using base64. Knowing this, I just sent the base64 encoded text to a decoder and voila, the password is revealed.
+Flag is: Academy{pl3as3_l3t_m3_1nt0_th3_saf3}
+Ironic...
+
+Safe Opener 2:
+
+This is worse...
+Downloading the file will give the user a .class file which the player would have to decompile it using a tool. I used https://jar.tools/jar-viewer for this. Lo' and behold, I found the flag in plain text.
+Flag: academy{SAf3_0p3n3rr_y0u_solv3d_it_63446779}
+
