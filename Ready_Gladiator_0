@@ -1,0 +1,28 @@
+Can you make a CoreWars warrior that always loses, no ties? 
+
+The solution is simple. The challenge will give you a imp.red file that you would need to download and navigate through in the filepath using the terminal.
+
+For example, since I am using a UNIX system, and my downloads will be in the /Downloads directory, I would navigate there by running the command:
+
+cd /Downloads
+
+Then, I would inspect the imp.red file by running
+
+cat imp.red
+
+This gives the output
+
+;redcode
+;name Imp Ex
+;assert 1
+mov 0, 1
+end
+
+Here, you would need to understand what each lines represent within a .red file. To simplify, anything that starts with a semi-colon would be there to run the code itself, similar to stdout in C++.
+Understanding this, you would see that only mov 0, 1 is something you would be able to modify (believe me, I tried modifying ;assert 1 to ;assert 0 [the code wouldn't run]).
+
+So by changing it to mov 0, 0 (in other words, the character would not move at all, hypothetically, he would forfeit his move and basically, do nothing, and die.)
+
+BOOM! You get the flag.
+
+Flag: academy{h3r0_t0_z3r0_4m1r1gh7_609c570e}
