@@ -1,0 +1,77 @@
+Holy guacamole... my first hard challenge
+
+You get two files
+1) private.key
+2) msg.enc
+
+Through previous challenges, I knew that you'd have to run something to the msg.enc using the private key to decode the encryption.
+
+Knowing this, I used Openssl's command:
+
+openssl pkeyutl -decrypt -inkey private.key -in msg.enc -out decrypted_message.txt
+
+However, it is not that simple... because I got this message:
+
+Public Key operation error
+803FB0F601000000:error:0180006C:bignum routines:BN_mod_inverse:no inverse:crypto/bn/bn_gcd.c:532:
+
+SO, something is wrong. But what? Therefore, I run this command to check wtf is wrong with this key:
+
+openssl rsa -in private.key -check -noout
+
+It returns:
+
+RSA key not ok
+803FB0F601000000:error:02000080:rsa routines:rsa_validate_keypair_multiprime:p not prime:crypto/rsa/rsa_chk.c:70:
+803FB0F601000000:error:02000081:rsa routines:rsa_validate_keypair_multiprime:q not prime:crypto/rsa/rsa_chk.c:76:
+803FB0F601000000:error:0200007F:rsa routines:rsa_validate_keypair_multiprime:n does not equal p q:crypto/rsa/rsa_chk.c:105:
+803FB0F601000000:error:0200007B:rsa routines:rsa_validate_keypair_multiprime:d e not congruent to 1:crypto/rsa/rsa_chk.c:157:
+803FB0F601000000:error:0180006C:bignum routines:BN_mod_inverse:no inverse:crypto/bn/bn_gcd.c:532:
+
+BOOM. The answer is there. Now I have to "fix" the RSA key. I run this command next:
+
+openssl pkey -in private.key -text -noout 
+
+It returns:
+
+Private-Key: (1024 bit, 2 primes)
+modulus:
+    00:b8:cb:1c:ca:99:b6:ac:41:87:6c:18:84:57:32:
+    a5:cb:fc:87:5d:f3:46:ee:90:02:ce:60:85:08:b5:
+    fc:f6:b6:0a:5a:c7:72:2a:2d:64:ef:74:e1:44:3a:
+    33:8e:70:a7:3e:63:a3:03:f3:ac:9a:df:19:85:95:
+    69:9f:6e:9f:30:c0:09:d2:19:c7:d9:8c:4e:c8:42:
+    03:61:08:34:02:9c:79:56:7e:fc:08:f6:6b:4b:c3:
+    f5:64:bf:b5:71:54:6a:06:b7:e4:8f:b3:5b:b9:cc:
+    ea:9a:2c:d4:43:49:f8:29:24:20:78:df:a6:4d:52:
+    59:27:bf:d5:5d:09:9c:02:4f
+publicExponent: 65537 (0x10001)
+privateExponent: 0
+prime1:
+    00:e7:00:56:8f:f5:06:bd:58:92:af:92:59:21:25:
+    e0:6c:be:9b:d4:5d:fe:af:e9:31:a3:33:c1:34:63:
+    02:3d:4f:00:00:00:00:00:00:00:00:00:00:00:00:
+    00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:
+    00:00:00:00:00
+prime2: 0
+exponent1: 0
+exponent2: 0
+coefficient: 0
+
+I know. WTF is this? We're interested in the modulus actually. It's made up of two large prime numbers. Our "fix" is basically finding those two prime numbers.
+
+I used this website to find the factors of the modulus (decimal)
+https://factordb.com/
+
+Oh yea, be sure to change the modulus key to decimal format becuase it's now in HEX.
+OR you can run this command which returns the modulus (HEX).
+
+openssl rsa -in private.key -modulus -noout
+
+Modulus=B8CB1CCA99B6AC41876C18845732A5CBFC875DF346EE9002CE608508B5FCF6B60A5AC7722A2D64EF74E1443A338E70A73E63A303F3AC9ADF198595699F6E9F30C009D219C7D98C4EC84203610834029C79567EFC08F66B4BC3F564BFB571546A06B7E48FB35BB9CCEA9A2CD44349F829242078DFA64D525927BFD55D099C024F
+
+Paste the number in the website, and you'd get two factors. Be sure to save them and paste them in my script. and you would get the flag.
+
+Flag: picoCTF{d741543f172970457e6a9aaa890935b8}
+
+
